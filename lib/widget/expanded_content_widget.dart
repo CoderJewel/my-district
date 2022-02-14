@@ -1,0 +1,60 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:random_practice/model/location.dart';
+import 'package:random_practice/widget/stars_widget.dart';
+
+
+
+class ExpandedContentWidget extends StatelessWidget{
+  final Location location;
+
+  const ExpandedContentWidget ({
+    @required this.location,
+Key key
+}): super( key: key);
+@override
+Widget build(BuildContext context) => Container(
+  decoration: BoxDecoration(
+    color: Colors.greenAccent,
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+  ),
+  padding: const EdgeInsets.all(8),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Text(location.addressLine1),
+      SizedBox(height: 8,),
+      buildAddressRating(location:location),
+    ],
+  ),
+);
+  Widget buildAddressRating({
+  @required Location location,
+}) => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        location.addressLine2,
+        style: TextStyle(color: Colors.black),
+      ),
+      StarsWidget(stars: location.starRating),
+    ],
+  );
+
+Widget buildReview({
+  @required Location location,
+}) =>  Row(
+  children: location.reviews
+      .map((review) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 4),
+    child: CircleAvatar(
+      radius: 10,
+      backgroundColor: Colors.black12,
+      backgroundImage: AssetImage(review.urlImage),
+    ),
+  ))
+      .toList(),
+);
+}
